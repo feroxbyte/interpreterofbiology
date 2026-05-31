@@ -3,24 +3,95 @@ import Dna from "./bio/Dna.astro";
 import Virus from "./bio/Virus.astro";
 import Cell from "./bio/Cell.astro";
 import Bacteria from "./bio/Bacteria.astro";
+import Molecule from "./bio/Molecule.astro";
+import Hexagon from "./bio/Hexagon.astro";
 
 interface Props {
   color?: string; // tailwind text-* class for motif stroke
-  opacity?: number; // 0..1
+  opacity?: number; // 0..1 (whole-field opacity)
+  variant?: "sparse" | "lush";
 }
-const { color = "text-ink", opacity = 0.12 } = Astro.props;
+const { color = "text-ink", opacity = 0.12, variant = "sparse" } = Astro.props;
 
-// [Component, top%, left%, rotation deg, scale]
-const items = [
-  [Dna, 8, 6, -12, 1.2],
-  [Virus, 14, 82, 18, 1],
-  [Cell, 70, 10, 6, 1.3],
-  [Bacteria, 78, 74, -8, 1.1],
-  [Dna, 44, 88, 24, 0.9],
-  [Virus, 58, 40, -16, 0.8],
-  [Cell, 26, 46, 12, 0.9],
-  [Bacteria, 4, 40, 4, 0.85],
+// Each row: [Component, top%, left%, rotation deg, scale, opacityFactor, speed, delay s, coreOnMobile]
+//   - scale + opacityFactor create depth (smaller/fainter reads as further back)
+//   - speed picks a drift duration tier; delay desyncs the loop
+//   - coreOnMobile rows always render; the rest are desktop-only (hidden sm:block)
+type Row = [
+  typeof Cell,
+  number,
+  number,
+  number,
+  number,
+  number,
+  "slow" | "mid" | "fast",
+  number,
+  boolean,
 ];
+
+// Today's hand-tuned 8 — analyst keeps exactly this.
+const sparse: Row[] = [
+  [Dna, 8, 6, -12, 1.2, 1, "slow", 0, true],
+  [Virus, 14, 82, 18, 1, 1, "mid", 0, true],
+  [Cell, 70, 10, 6, 1.3, 1, "slow", 0, true],
+  [Bacteria, 78, 74, -8, 1.1, 1, "fast", 0, true],
+  [Dna, 44, 88, 24, 0.9, 1, "mid", 0, true],
+  [Virus, 58, 40, -16, 0.8, 1, "fast", 0, true],
+  [Cell, 26, 46, 12, 0.9, 1, "slow", 0, true],
+  [Bacteria, 4, 40, 4, 0.85, 1, "mid", 0, true],
+];
+
+// Richer field for the butter sections. ~14 core (mobile) + ~24 desktop-only (~38 total).
+const lush: Row[] = [
+  // core — always on, including mobile (≈ today's animated load)
+  [Dna, 7, 5, -12, 1.25, 1.0, "slow", -1.2, true],
+  [Virus, 12, 80, 16, 1.05, 0.95, "mid", -3.5, true],
+  [Cell, 69, 8, 6, 1.35, 1.0, "slow", -0.6, true],
+  [Bacteria, 80, 72, -8, 1.1, 0.9, "fast", -2.1, true],
+  [Hexagon, 42, 90, 22, 0.95, 0.85, "mid", -4.4, true],
+  [Molecule, 60, 38, -14, 0.85, 0.8, "fast", -1.7, true],
+  [Cell, 25, 44, 12, 0.9, 0.9, "slow", -5.0, true],
+  [Dna, 3, 38, 4, 0.8, 0.75, "mid", -2.8, true],
+  // depth + fill — desktop only
+  [Molecule, 18, 24, 10, 0.7, 0.6, "slow", -6.1, false],
+  [Hexagon, 33, 14, -6, 0.75, 0.65, "fast", -3.3, false],
+  [Virus, 50, 66, 28, 0.7, 0.6, "mid", -0.9, false],
+  [Bacteria, 36, 60, -20, 0.78, 0.7, "slow", -4.8, false],
+  [Dna, 86, 30, 14, 0.72, 0.6, "fast", -2.4, false],
+  [Cell, 90, 88, -10, 0.68, 0.55, "mid", -5.6, false],
+  [Hexagon, 64, 22, 8, 0.82, 0.7, "slow", -1.1, false],
+  [Virus, 88, 54, -18, 0.66, 0.55, "fast", -3.9, false],
+  [Molecule, 52, 6, 18, 0.7, 0.6, "mid", -6.7, false],
+  [Bacteria, 22, 68, 6, 0.74, 0.65, "slow", -0.3, false],
+  // extra core for mobile fill
+  [Hexagon, 48, 50, -12, 0.9, 0.9, "fast", -2.6, true],
+  [Dna, 34, 28, 10, 0.95, 0.95, "mid", -4.1, true],
+  // extra desktop fill — close the larger gaps
+  [Cell, 12, 58, -8, 0.78, 0.7, "slow", -3.7, false],
+  [Bacteria, 6, 92, 14, 0.7, 0.6, "fast", -1.4, false],
+  [Virus, 74, 46, 20, 0.8, 0.7, "mid", -5.3, false],
+  [Molecule, 40, 76, -16, 0.76, 0.65, "slow", -0.8, false],
+  [Hexagon, 82, 12, 8, 0.74, 0.6, "fast", -6.2, false],
+  [Dna, 66, 84, -10, 0.78, 0.7, "mid", -2.0, false],
+  // push further — extra core (mobile gets ~14 now)
+  [Virus, 16, 36, -10, 1.0, 0.95, "slow", -3.1, true],
+  [Molecule, 76, 24, 14, 0.92, 0.9, "mid", -5.8, true],
+  [Cell, 54, 84, -6, 0.95, 0.9, "fast", -0.4, true],
+  [Bacteria, 30, 12, 18, 0.88, 0.85, "slow", -4.6, true],
+  // push further — denser desktop field (~38 total)
+  [Dna, 20, 50, -14, 0.82, 0.7, "fast", -1.9, false],
+  [Hexagon, 8, 70, 10, 0.78, 0.65, "mid", -6.5, false],
+  [Molecule, 46, 30, 20, 0.74, 0.6, "slow", -2.3, false],
+  [Virus, 64, 56, -22, 0.8, 0.7, "fast", -5.1, false],
+  [Cell, 78, 92, 8, 0.7, 0.6, "mid", -0.7, false],
+  [Bacteria, 58, 16, -12, 0.84, 0.7, "slow", -3.6, false],
+  [Hexagon, 92, 64, 16, 0.72, 0.6, "fast", -4.9, false],
+  [Dna, 50, 8, 6, 0.86, 0.75, "mid", -1.5, false],
+  [Molecule, 28, 86, -18, 0.76, 0.65, "slow", -6.0, false],
+  [Virus, 4, 18, 22, 0.82, 0.7, "fast", -2.7, false],
+];
+
+const items = variant === "lush" ? lush : sparse;
 ---
 
 <div
@@ -29,36 +100,55 @@ const items = [
   aria-hidden="true"
 >
   {
-    items.map(([C, top, left, rot, scale]) => (
-      <div
-        class="absolute"
-        style={`top:${top}%;left:${left}%;transform:rotate(${rot}deg) scale(${scale})`}
-      >
-        <div class="bio-drift">
-          <Cell class="w-12 h-12" />
+    items.map(
+      ([C, top, left, rot, scale, oF, speed, delay, core]) => (
+        <div
+          class={`absolute ${core ? "" : "hidden sm:block"}`}
+          style={`top:${top}%;left:${left}%;opacity:${Math.max(oF, 0.85).toFixed(2)};transform:rotate(${rot}deg) scale(${scale})`}
+        >
+          <div class={`bio-drift drift-${speed}`} style={`animation-delay:${delay}s`}>
+            <C class="w-12 h-12" />
+          </div>
         </div>
-      </div>
-    ))
+      ),
+    )
   }
 </div>
 
 <style>
   /* Drift lives on an inner wrapper so it never clobbers the static rotate/scale
-     on the positioning wrapper (transform is a single property). */
+     on the positioning wrapper (transform is a single property).
+     translate3d forces a GPU compositor layer so iOS Safari animates off the
+     main thread instead of repainting — same fix as the reveal cards. */
   @keyframes bioDrift {
-    from {
-      transform: translateY(0);
+    0% {
+      transform: translate3d(0, 0, 0) rotate(-4deg);
     }
-    to {
-      transform: translateY(-8px);
+    50% {
+      transform: translate3d(10px, -22px, 0) rotate(3deg);
+    }
+    100% {
+      transform: translate3d(-8px, -40px, 0) rotate(6deg);
     }
   }
   .bio-drift {
-    animation: bioDrift 9s ease-in-out infinite alternate;
+    animation: bioDrift 7s ease-in-out infinite alternate;
+    will-change: transform;
+  }
+  /* Speed tiers so the field desyncs rather than pulsing in unison. */
+  .drift-slow {
+    animation-duration: 9s;
+  }
+  .drift-mid {
+    animation-duration: 7s;
+  }
+  .drift-fast {
+    animation-duration: 5s;
   }
   @media (prefers-reduced-motion: reduce) {
     .bio-drift {
       animation: none;
+      will-change: auto;
     }
   }
 </style>

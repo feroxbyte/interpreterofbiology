@@ -14,11 +14,25 @@ const links = [
     class="mx-auto flex max-w-6xl items-center justify-between px-5 py-3"
     aria-label="Main"
   >
-    <a href="#top" class="group leading-none">
-      <span class="font-serif italic text-xl text-ink">
+    <a
+      href="#top"
+      class="group block shrink-0 leading-none"
+      aria-label="interpreter of biology — home"
+    >
+      {
+        /* One wordmark at every width. clamp() shrinks it on narrow phones and
+          nowrap keeps it on a single line — no separate monogram. */
+      }
+      <span
+        class="block font-serif italic text-ink whitespace-nowrap text-[clamp(0.95rem,4.2vw,1.25rem)] mb-1"
+      >
         interpreter of biology
       </span>
-      <span class="block h-1 w-44 bg-neon-lime"></span>
+      {
+        /* Signature underbar — spans the full text width; electric blue clears
+          WCAG non-text 3:1 on both paper and butter (neon-lime did not). */
+      }
+      <span class="block h-1 w-full bg-primary"></span>
     </a>
     <div class="hidden items-center gap-7 md:flex">
       {
@@ -31,9 +45,10 @@ const links = [
     </div>
     <a
       href={BOOKING_URL}
-      class="font-sans font-bold text-sm text-white bg-primary border-2 border-ink rounded-full px-4 py-2 hover:-translate-y-0.5 transition-transform"
+      class="font-sans font-bold text-sm text-white bg-primary border-2 border-ink rounded-full px-4 py-2 whitespace-nowrap hover:-translate-y-0.5 transition-transform"
     >
-      Apply for your blueprint
+      <span class="md:hidden">Apply</span>
+      <span class="hidden md:inline">Apply for your blueprint</span>
     </a>
   </nav>
 </header>

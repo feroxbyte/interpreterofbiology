@@ -10,7 +10,7 @@ import heroImg from "../assets/hero.png";
   id="top"
   class="relative overflow-hidden bg-butter border-b-2 border-ink"
 >
-  <BioScatter color="text-burg-deep" opacity={0.14} />
+  <BioScatter color="text-burg-deep" opacity={0.2} variant="lush" />
   <div class="relative mx-auto max-w-6xl px-5 py-24 md:py-32">
     <div
       class="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12"
@@ -18,7 +18,7 @@ import heroImg from "../assets/hero.png";
       <!-- Text column -->
       <div>
         <p
-          class="inline-flex items-center gap-2 mb-7 font-mono text-xs uppercase tracking-[0.18em] text-burg-deep bg-paper border-2 border-ink rounded-full px-4 py-1.5"
+          class="inline-flex items-center gap-2 mb-3 font-mono uppercase tracking-[0.14em] sm:tracking-[0.18em] text-burg-deep bg-paper border-2 border-ink rounded-full px-3 py-1.5 sm:px-4 text-[clamp(0.625rem,2.6vw,0.75rem)]"
         >
           <span class="inline-block h-2 w-2 rounded-full bg-primary"></span>
           Genetic & epigenetic optimization
@@ -39,7 +39,7 @@ import heroImg from "../assets/hero.png";
         <div class="mt-10 flex flex-wrap items-center gap-4">
           <a
             href={BOOKING_URL}
-            class="font-sans font-bold text-white bg-primary border-2 border-ink rounded-full px-7 py-3 text-lg shadow-[6px_6px_0_var(--color-ink)] hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[8px_8px_0_var(--color-ink)] transition-all"
+            class="font-sans font-bold text-white bg-primary border-2 border-ink rounded-full px-4 md:px-7 py-3 whitespace-nowrap text-[clamp(0.75rem,3.2vw,1.125rem)] shadow-[6px_6px_0_var(--color-ink)] hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[8px_8px_0_var(--color-ink)] transition-all"
           >
             Apply for your Cellular Blueprint
           </a>

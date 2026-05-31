@@ -16,10 +16,13 @@ const disclaimer =
     >
       <div>
         <a href="#top" class="group inline-block leading-none">
-          <span class="font-serif italic text-xl text-paper">
+          {/* Matches the Nav: clamp-shrinking single wordmark, one line. */}
+          <span
+            class="block font-serif italic text-paper whitespace-nowrap text-[clamp(1rem,4.2vw,1.25rem)] mb-1"
+          >
             interpreter of biology
           </span>
-          <span class="block h-1 w-44 bg-neon-lime"></span>
+          <span class="block h-1 w-full bg-primary"></span>
         </a>
         <p class="font-mono text-sm text-paper/70 mt-4 max-w-xs">
           The Cellular Blueprint Program — genetic &amp; epigenetic
