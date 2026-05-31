@@ -1,0 +1,23 @@
+{
+  // Worker (and Cloudflare dashboard) name for this deployment.
+  "name": "interpreterofbiology",
+
+  // Compatibility date pins the Workers runtime behavior. Use today's date.
+  "compatibility_date": "2026-05-31",
+
+  // TODO (your call): point Workers at the built static output.
+  //
+  // Astro's static build writes to ./dist. For an assets-ONLY site (no
+  // server-side Worker code), you only need the "directory" field here.
+  //
+  // Decision that matters — "not_found_handling":
+  //   - "404-page"        → serve dist/404.html on unknown paths (Astro generates one)
+  //   - "single-page-application" → always serve index.html (for client-side routers; NOT your case)
+  //   - omit              → plain 404
+  //
+  // Fill in the "assets" object below.
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page"
+  }
+}
