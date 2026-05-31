@@ -1,0 +1,76 @@
+---
+import FlatCard from "./FlatCard.astro";
+
+type Region = { region: string; detail: string | null; note: string | null };
+type Item = { t: string; shadow: string; b?: string; regions?: Region[] };
+
+const regions: Region[] = [
+  {
+    region: "United States",
+    detail: "incl. Alaska & Hawaii",
+    note: "Not available in New York, New Jersey & Rhode Island (state lab laws).",
+  },
+  { region: "European Union", detail: null, note: null },
+];
+
+const items: Item[] = [
+  { t: "Location access", shadow: "orange", regions },
+  {
+    t: "Shipping requirements",
+    shadow: "blue",
+    b: "We ship kits via secure DHL/UPS Express courier networks. Because of this, we do not ship to P.O. Boxes — a physical residential or business address must be provided at checkout.",
+  },
+  {
+    t: "The scope of science",
+    shadow: "lime",
+    b: "This is an educational, data-driven optimization service. We do not treat, cure, or diagnose clinical disease. We teach you how to master the environment of your cells.",
+  },
+];
+---
+
+<section id="eligibility" class="mx-auto max-w-6xl px-5 py-24">
+  <h2
+    class="reveal font-serif tracking-tight text-ink text-4xl md:text-5xl max-w-3xl"
+  >
+    Transparency, <span class="italic">before</span> you book.
+  </h2>
+  <p class="reveal font-mono text-ink/70 mt-5 max-w-2xl leading-relaxed">
+    Elite logistics and state-specific laboratory frameworks mean a few core
+    criteria. Please review them before booking.
+  </p>
+  <div class="mt-12 grid gap-6 md:grid-cols-3">
+    {
+      items.map((it) => (
+        <FlatCard shadow={it.shadow as "orange"} class="reveal">
+          <h3 class="font-sans font-bold text-lg text-ink">{it.t}</h3>
+          {it.regions ? (
+            <ul class="mt-3 space-y-2.5">
+              {it.regions.map((r) => (
+                <li class="font-mono text-base text-ink/80">
+                  <span class="flex items-baseline gap-2">
+                    <span class="text-primary font-bold">✓</span>
+                    <span>
+                      <span class="font-semibold text-ink">{r.region}</span>
+                      {r.detail && (
+                        <span class="text-ink/60"> — {r.detail}</span>
+                      )}
+                    </span>
+                  </span>
+                  {r.note && (
+                    <span class="block pl-6 mt-1 text-sm text-ink/55 leading-relaxed">
+                      {r.note}
+                    </span>
+                  )}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p class="font-mono text-base text-ink/80 mt-3 leading-relaxed">
+              {it.b}
+            </p>
+          )}
+        </FlatCard>
+      ))
+    }
+  </div>
+</section>

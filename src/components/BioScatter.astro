@@ -1,0 +1,64 @@
+---
+import Dna from "./bio/Dna.astro";
+import Virus from "./bio/Virus.astro";
+import Cell from "./bio/Cell.astro";
+import Bacteria from "./bio/Bacteria.astro";
+
+interface Props {
+  color?: string; // tailwind text-* class for motif stroke
+  opacity?: number; // 0..1
+}
+const { color = "text-ink", opacity = 0.12 } = Astro.props;
+
+// [Component, top%, left%, rotation deg, scale]
+const items = [
+  [Dna, 8, 6, -12, 1.2],
+  [Virus, 14, 82, 18, 1],
+  [Cell, 70, 10, 6, 1.3],
+  [Bacteria, 78, 74, -8, 1.1],
+  [Dna, 44, 88, 24, 0.9],
+  [Virus, 58, 40, -16, 0.8],
+  [Cell, 26, 46, 12, 0.9],
+  [Bacteria, 4, 40, 4, 0.85],
+];
+---
+
+<div
+  class={`pointer-events-none absolute inset-0 overflow-hidden ${color}`}
+  style={`opacity:${opacity}`}
+  aria-hidden="true"
+>
+  {
+    items.map(([C, top, left, rot, scale]) => (
+      <div
+        class="absolute"
+        style={`top:${top}%;left:${left}%;transform:rotate(${rot}deg) scale(${scale})`}
+      >
+        <div class="bio-drift">
+          <Cell class="w-12 h-12" />
+        </div>
+      </div>
+    ))
+  }
+</div>
+
+<style>
+  /* Drift lives on an inner wrapper so it never clobbers the static rotate/scale
+     on the positioning wrapper (transform is a single property). */
+  @keyframes bioDrift {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(-8px);
+    }
+  }
+  .bio-drift {
+    animation: bioDrift 9s ease-in-out infinite alternate;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .bio-drift {
+      animation: none;
+    }
+  }
+</style>

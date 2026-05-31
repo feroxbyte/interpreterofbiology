@@ -1,0 +1,19 @@
+---
+interface Props {
+  class?: string;
+}
+const { class: className = "" } = Astro.props;
+---
+
+<svg
+  viewBox="0 0 64 64"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  class={className}
+  aria-hidden="true"
+>
+  <path d="M32 4C44 4 58 12 58 28S48 60 30 60 6 48 6 30 20 4 32 4Z"></path>
+  <circle cx="34" cy="30" r="9"></circle>
+  <circle cx="34" cy="30" r="2.5" fill="currentColor" stroke="none"></circle>
+</svg>

@@ -1,0 +1,15 @@
+---
+interface Props {
+  bg?: string; // tailwind bg-* class
+  rotate?: number; // degrees, ±2 typical
+  class?: string;
+}
+const { bg = "bg-hot-pink", rotate = -2, class: className = "" } = Astro.props;
+---
+
+<span
+  class={`inline-block font-sans font-bold text-ink ${bg} border-2 border-ink rounded-full px-4 py-1 text-sm tracking-tight ${className}`}
+  style={`transform:rotate(${rotate}deg)`}
+>
+  <slot />
+</span>

@@ -1,0 +1,46 @@
+---
+import BioScatter from "./BioScatter.astro";
+import PathwayMap from "./PathwayMap.astro";
+---
+
+<section
+  id="analyst"
+  class="relative overflow-hidden bg-burg-deep text-butter border-y-2 border-ink"
+>
+  <BioScatter color="text-butter" opacity={0.1} />
+  <div class="relative mx-auto max-w-6xl px-5 py-24">
+    <p class="reveal font-mono text-butter/70 text-sm mb-8">
+      — meet your DNA analyst
+    </p>
+    <div class="grid gap-12 lg:grid-cols-2 lg:items-center">
+      <div>
+        <blockquote
+          class="reveal font-serif italic text-butter text-2xl md:text-3xl leading-snug"
+        >
+          "I don't look at symptoms to suppress them with a generic pill. I look
+          at your genetic variations to understand the speed, efficiency, and
+          requirements of your cellular pathways."
+        </blockquote>
+        <p class="reveal font-sans font-bold text-butter text-lg mt-7">
+          Pelin Çeyrekbaşıoğlu, BSc
+        </p>
+        <p class="reveal font-mono text-butter/70 text-sm mt-1">
+          Genetic &amp; Epigenetic Optimization Scientist
+        </p>
+        <p class="reveal font-mono text-neon-lime text-xs mt-2 leading-relaxed">
+          BSc, Cell &amp; Molecular Biology — University of South Florida ·
+          dnalife® Certified Practitioner
+        </p>
+        <p
+          class="reveal font-mono text-butter/80 text-base mt-6 max-w-md leading-relaxed"
+        >
+          We focus purely on upgrading your biochemistry — optimizing
+          methylation, streamlining detoxification, cooling systemic
+          inflammation, and supporting your mitochondrial energy engines from
+          the inside out.
+        </p>
+      </div>
+      <PathwayMap class="reveal" />
+    </div>
+  </div>
+</section>

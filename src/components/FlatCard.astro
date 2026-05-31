@@ -1,0 +1,45 @@
+---
+interface Props {
+  shadow?: "lime" | "blue" | "pink" | "orange" | "cobalt" | "butter";
+  bg?: string; // tailwind bg-* class
+  class?: string;
+}
+const { shadow = "lime", bg = "bg-paper", class: className = "" } = Astro.props;
+const shadowColor: Record<string, string> = {
+  lime: "var(--color-neon-lime)",
+  blue: "var(--color-elec-blue)",
+  pink: "var(--color-hot-pink)",
+  orange: "var(--color-orange)",
+  cobalt: "var(--color-cobalt)",
+  butter: "var(--color-butter)",
+};
+---
+
+<div
+  class={`flat-card ${bg} border-2 border-ink rounded-xl p-6 ${className}`}
+  style={`--c:${shadowColor[shadow]}`}
+>
+  <slot />
+</div>
+
+<style>
+  .flat-card {
+    box-shadow: 6px 6px 0 var(--c);
+    transition:
+      transform 0.18s ease,
+      box-shadow 0.18s ease;
+  }
+  .flat-card:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 10px 10px 0 var(--c);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .flat-card {
+      transition: none;
+    }
+    .flat-card:hover {
+      transform: none;
+      box-shadow: 6px 6px 0 var(--c);
+    }
+  }
+</style>

@@ -1,0 +1,107 @@
+---
+interface Props {
+  class?: string;
+}
+const { class: className = "" } = Astro.props;
+
+// The four cellular pathways the program optimizes (blueprint §3), framed as a
+// lab "optimization readout" — raw genetic data in, a precise protocol out.
+// `level` drives the segmented meter; `status` is the optimization verb.
+const SEGMENTS = 7;
+const systems = [
+  {
+    name: "methylation",
+    desc: "the master switch for gene expression & repair",
+    level: 6,
+    status: "tuned",
+    accent: "lime",
+  },
+  {
+    name: "detoxification",
+    desc: "clearing what holds your cells back",
+    level: 5,
+    status: "streamlined",
+    accent: "lime",
+  },
+  {
+    name: "inflammation",
+    desc: "cooling the systemic noise",
+    level: 4,
+    status: "cooled",
+    accent: "cobalt",
+  },
+  {
+    name: "mitochondria",
+    desc: "the cellular energy engines",
+    level: 7,
+    status: "primed",
+    accent: "lime",
+  },
+] as const;
+
+// Literal class strings so Tailwind's scanner generates them (no dynamic interpolation).
+const ACCENT = {
+  lime: { text: "text-neon-lime", fill: "bg-neon-lime" },
+  cobalt: { text: "text-cobalt", fill: "bg-cobalt" },
+} as const;
+---
+
+<div
+  class={`bg-ink rounded-xl border-2 border-ink shadow-[8px_8px_0_var(--color-neon-lime)] overflow-hidden ${className}`}
+>
+  <!-- header -->
+  <div
+    class="flex items-center justify-between gap-3 bg-burgundy px-4 py-3 border-b-2 border-ink"
+  >
+    <span class="font-mono text-xs uppercase tracking-[0.18em] text-butter"
+      >Cellular systems</span
+    >
+    <span
+      class="flex items-center gap-1.5 font-mono text-[0.7rem] uppercase tracking-wider text-butter/70"
+    >
+      <span class="h-2 w-2 rounded-full bg-neon-lime"></span> optimization readout
+    </span>
+  </div>
+
+  <!-- input -->
+  <p class="font-mono text-xs text-cobalt px-5 pt-4">
+    INPUT · your raw genetic data
+  </p>
+
+  <!-- meters -->
+  <ul class="px-5 py-4 space-y-4">
+    {
+      systems.map((s) => (
+        <li>
+          <div class="flex items-baseline justify-between gap-3">
+            <span class="font-mono text-sm text-paper">{s.name}</span>
+            <span
+              class={`font-mono text-[0.7rem] uppercase tracking-wider ${ACCENT[s.accent].text}`}
+            >
+              {s.status}
+            </span>
+          </div>
+          <div
+            class="mt-1.5 flex gap-1"
+            role="img"
+            aria-label={`${s.name}: ${s.status}`}
+          >
+            {Array.from({ length: SEGMENTS }).map((_, i) => (
+              <span
+                class={`h-1.5 flex-1 rounded-full ${i < s.level ? ACCENT[s.accent].fill : "bg-paper/15"}`}
+              />
+            ))}
+          </div>
+          <p class="font-mono text-xs text-paper/60 mt-1.5">{s.desc}</p>
+        </li>
+      ))
+    }
+  </ul>
+
+  <!-- output -->
+  <div class="border-t-2 border-paper/10 px-5 py-3.5">
+    <p class="font-mono text-xs text-neon-lime">
+      OUTPUT → a precise, personal protocol. zero guessing.
+    </p>
+  </div>
+</div>

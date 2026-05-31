@@ -1,0 +1,50 @@
+---
+import FlatCard from "./FlatCard.astro";
+import Sticker from "./Sticker.astro";
+const questions = [
+  {
+    t: "Spent thousands, upgraded nothing?",
+    b: "Trendy supplements, generic diets, biohacking fads — and still no measurable performance upgrade to show for it.",
+  },
+  {
+    t: '"Normal" labs, abnormal life?',
+    b: 'Your standard clinical charts come back "normal," yet you run on chronic fatigue, brain fog, and sub-optimal sleep.',
+  },
+  {
+    t: "Done guessing what your body needs?",
+    b: "You want to stop guessing and start reading the exact genetic code managing your cellular machinery.",
+  },
+];
+---
+
+<section id="problem" class="mx-auto max-w-6xl px-5 py-24">
+  <h2
+    class="reveal font-serif tracking-tight text-ink text-4xl md:text-5xl max-w-3xl"
+  >
+    Tired of <span class="italic">one-size-fits-all</span> wellness?
+  </h2>
+  <p class="reveal font-mono text-ink/70 mt-5 max-w-2xl leading-relaxed">
+    Standard healthcare systems and commercial wellness apps are built around
+    the "average" human. But biologically, an average human does not exist.
+  </p>
+  <div class="reveal mt-6">
+    <Sticker bg="bg-neon-lime" rotate={-2}
+      >the average human doesn't exist</Sticker
+    >
+  </div>
+  <div class="mt-12 grid gap-6 md:grid-cols-3">
+    {
+      questions.map((q, i) => (
+        <FlatCard
+          shadow={["orange", "blue", "pink"][i] as "orange"}
+          class="reveal"
+        >
+          <h3 class="font-sans font-bold text-lg text-ink">{q.t}</h3>
+          <p class="font-mono text-base text-ink/80 mt-3 leading-relaxed">
+            {q.b}
+          </p>
+        </FlatCard>
+      ))
+    }
+  </div>
+</section>

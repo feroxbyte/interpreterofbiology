@@ -1,0 +1,63 @@
+---
+import FlatCard from "./FlatCard.astro";
+const steps = [
+  {
+    n: "01",
+    t: "The Deep-Dive Anamnesis",
+    b: "A 30-minute 1-on-1 virtual consultation via Zoom or Teams to audit your lifestyle, daily energy rhythms, and environmental stressors.",
+  },
+  {
+    n: "02",
+    t: "Direct Kit Logistics",
+    b: "A premium, non-invasive dnalife® genetic test kit is dispatched directly to your residential or business address.",
+  },
+  {
+    n: "03",
+    t: "Molecular Analysis",
+    b: "Once the lab processes your cheek swab, I run an expert review of your raw genetic data, plotting your biochemical pathway map.",
+  },
+  {
+    n: "04",
+    t: "The Master Consultation",
+    b: "A live 60-to-90-minute screen-share session where we map your genetic variations and translate what they mean for your longevity.",
+  },
+  {
+    n: "05",
+    t: "The Actionable Protocol",
+    b: "You receive a custom, multi-page digital blueprint: precise environmental, sleep-architecture, and lifestyle adjustments.",
+  },
+  {
+    n: "06",
+    t: "30-Day Concierge Support",
+    b: "Continuous direct text and email access to ensure seamless integration of your protocol into a high-performing routine.",
+  },
+];
+const shadows = ["lime", "blue", "pink", "orange", "cobalt", "butter"];
+---
+
+<section id="workflow" class="bg-gray-lt border-y-2 border-ink">
+  <div class="mx-auto max-w-6xl px-5 py-24">
+    <h2
+      class="reveal font-serif tracking-tight text-ink text-4xl md:text-5xl max-w-2xl"
+    >
+      The Cellular Blueprint workflow
+    </h2>
+    <p class="reveal font-mono text-ink/70 mt-4 max-w-xl leading-relaxed">
+      Six steps. One premium, end-to-end experience — so you know exactly what
+      you're paying for.
+    </p>
+    <div class="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {
+        steps.map((s, i) => (
+          <FlatCard shadow={shadows[i] as "lime"} class="reveal">
+            <span class="font-mono text-3xl text-primary">{s.n}</span>
+            <h3 class="font-sans font-bold text-lg text-ink mt-3">{s.t}</h3>
+            <p class="font-mono text-base text-ink/80 mt-3 leading-relaxed">
+              {s.b}
+            </p>
+          </FlatCard>
+        ))
+      }
+    </div>
+  </div>
+</section>
