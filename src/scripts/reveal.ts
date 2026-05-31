@@ -13,8 +13,18 @@ function initReveal() {
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          entry.target.classList.add("is-visible");
-          io.unobserve(entry.target);
+          const el = entry.target as HTMLElement;
+          el.classList.add("is-visible");
+          io.unobserve(el);
+          // Release the GPU layer hint once the slide-in is done so dozens of
+          // revealed cards don't each keep a composited layer alive.
+          el.addEventListener(
+            "transitionend",
+            () => {
+              el.style.willChange = "auto";
+            },
+            { once: true },
+          );
         }
       });
     },

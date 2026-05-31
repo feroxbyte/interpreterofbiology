@@ -43,17 +43,22 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Scroll-reveal initial state (script in Task 14 adds .is-visible) */
+/* Scroll-reveal initial state (script in Task 14 adds .is-visible).
+   translate3d() forces a GPU compositor layer so iOS Safari animates the
+   slide-in off the main thread instead of repainting each frame. will-change
+   keeps the layer warm before reveal; the script drops it after the transition
+   so idle cards don't pin GPU memory. */
 .reveal {
   opacity: 0;
-  transform: translateY(16px);
+  transform: translate3d(0, 16px, 0);
   transition:
-    opacity 0.6s ease,
-    transform 0.6s ease;
+    opacity 0.5s ease,
+    transform 0.5s ease;
+  will-change: opacity, transform;
 }
 .reveal.is-visible {
   opacity: 1;
-  transform: none;
+  transform: translate3d(0, 0, 0);
 }
 @media (prefers-reduced-motion: reduce) {
   html {
